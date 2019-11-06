@@ -16,6 +16,7 @@ func main() {
 	if err != nil {
 		fmt.Println(err.Error())
 	}
+	fmt.Printf("Hello, I am %s\n", bot.Self.FirstName)
 	u := tgbotapi.NewUpdate(0)
 	u.Timeout = 60
 	updates, err := bot.GetUpdatesChan(u)
