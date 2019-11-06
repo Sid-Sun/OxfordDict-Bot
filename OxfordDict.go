@@ -32,6 +32,7 @@ func main() {
 		wg.Add(1)
 		go getUpdates(bot, updates)
 	}
+	wg.Wait()
 }
 
 func getUpdates(bot *tgbotapi.BotAPI, updates tgbotapi.UpdatesChannel) {
