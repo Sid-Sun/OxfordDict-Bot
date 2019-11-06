@@ -1,0 +1,602 @@
+{
+    "id": "mate",
+    "metadata": {
+        "operation": "retrieve",
+        "provider": "Oxford University Press",
+        "schema": "RetrieveEntry"
+    },
+    "results": [
+        {
+            "id": "mate",
+            "language": "en-gb",
+            "lexicalEntries": [
+                {
+                    "derivatives": [
+                        {
+                            "id": "mateless",
+                            "text": "mateless"
+                        }
+                    ],
+                    "entries": [
+                        {
+                            "etymologies": [
+                                "late Middle English: from Middle Low German māt(e) ‘comrade’, of West Germanic origin; related to meat (the underlying concept being that of eating together)"
+                            ],
+                            "homographNumber": "100",
+                            "senses": [
+                                {
+                                    "definitions": [
+                                        "the sexual partner of a bird or other animal"
+                                    ],
+                                    "examples": [
+                                        {
+                                            "text": "a male bird sings to court a mate"
+                                        }
+                                    ],
+                                    "id": "m_en_gbus0623490.007",
+                                    "shortDefinitions": [
+                                        "sexual partner of bird or animal"
+                                    ],
+                                    "subsenses": [
+                                        {
+                                            "definitions": [
+                                                "a person's husband, wife, or other sexual partner"
+                                            ],
+                                            "examples": [
+                                                {
+                                                    "text": "he couldn't satisfy his frisky young mate"
+                                                }
+                                            ],
+                                            "id": "m_en_gbus0623490.008",
+                                            "registers": [
+                                                {
+                                                    "id": "informal",
+                                                    "text": "Informal"
+                                                }
+                                            ],
+                                            "shortDefinitions": [
+                                                "sexual partner"
+                                            ],
+                                            "thesaurusLinks": [
+                                                {
+                                                    "entry_id": "mate",
+                                                    "sense_id": "t_en_gb0009245.003"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "definitions": [
+                                                "one of a matched pair"
+                                            ],
+                                            "examples": [
+                                                {
+                                                    "text": "a sock without its mate"
+                                                }
+                                            ],
+                                            "id": "m_en_gbus0623490.009",
+                                            "registers": [
+                                                {
+                                                    "id": "informal",
+                                                    "text": "Informal"
+                                                }
+                                            ],
+                                            "shortDefinitions": [
+                                                "one of matched pair"
+                                            ],
+                                            "thesaurusLinks": [
+                                                {
+                                                    "entry_id": "mate",
+                                                    "sense_id": "t_en_gb0009245.004"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "definitions": [
+                                        "a fellow member or joint occupant of a specified thing"
+                                    ],
+                                    "examples": [
+                                        {
+                                            "text": "his table-mates"
+                                        }
+                                    ],
+                                    "id": "m_en_gbus0623490.011",
+                                    "notes": [
+                                        {
+                                            "text": "in combination",
+                                            "type": "grammaticalNote"
+                                        }
+                                    ],
+                                    "shortDefinitions": [
+                                        "joint occupant"
+                                    ],
+                                    "thesaurusLinks": [
+                                        {
+                                            "entry_id": "mate",
+                                            "sense_id": "t_en_gb0009245.003"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "definitions": [
+                                        "a friend or companion"
+                                    ],
+                                    "examples": [
+                                        {
+                                            "text": "my best mate Steve"
+                                        }
+                                    ],
+                                    "id": "m_en_gbus0623490.015",
+                                    "regions": [
+                                        {
+                                            "id": "british",
+                                            "text": "British"
+                                        }
+                                    ],
+                                    "registers": [
+                                        {
+                                            "id": "informal",
+                                            "text": "Informal"
+                                        }
+                                    ],
+                                    "shortDefinitions": [
+                                        "friend"
+                                    ],
+                                    "subsenses": [
+                                        {
+                                            "definitions": [
+                                                "used as a friendly form of address between men or boys"
+                                            ],
+                                            "examples": [
+                                                {
+                                                    "text": "‘See you then, mate.’"
+                                                }
+                                            ],
+                                            "id": "m_en_gbus0623490.018",
+                                            "shortDefinitions": [
+                                                "friendly name"
+                                            ],
+                                            "thesaurusLinks": [
+                                                {
+                                                    "entry_id": "mate",
+                                                    "sense_id": "t_en_gb0009245.002"
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "thesaurusLinks": [
+                                        {
+                                            "entry_id": "mate",
+                                            "sense_id": "t_en_gb0009245.001"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "definitions": [
+                                        "an assistant or deputy in certain trades"
+                                    ],
+                                    "examples": [
+                                        {
+                                            "text": "a plumber's mate"
+                                        }
+                                    ],
+                                    "id": "m_en_gbus0623490.021",
+                                    "regions": [
+                                        {
+                                            "id": "british",
+                                            "text": "British"
+                                        }
+                                    ],
+                                    "shortDefinitions": [
+                                        "assistant"
+                                    ],
+                                    "subsenses": [
+                                        {
+                                            "crossReferenceMarkers": [
+                                                "See also first mate"
+                                            ],
+                                            "crossReferences": [
+                                                {
+                                                    "id": "first_mate",
+                                                    "text": "first mate",
+                                                    "type": "see also"
+                                                }
+                                            ],
+                                            "definitions": [
+                                                "an officer on a merchant ship subordinate to the master."
+                                            ],
+                                            "domains": [
+                                                {
+                                                    "id": "nautical",
+                                                    "text": "Nautical"
+                                                }
+                                            ],
+                                            "id": "m_en_gbus0623490.022",
+                                            "shortDefinitions": [
+                                                "ship's officer"
+                                            ]
+                                        }
+                                    ],
+                                    "thesaurusLinks": [
+                                        {
+                                            "entry_id": "mate",
+                                            "sense_id": "t_en_gb0009245.005"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "language": "en-gb",
+                    "lexicalCategory": {
+                        "id": "noun",
+                        "text": "Noun"
+                    },
+                    "pronunciations": [
+                        {
+                            "audioFile": "http://audio.oxforddictionaries.com/en/mp3/mate_gb_1.mp3",
+                            "dialects": [
+                                "British English"
+                            ],
+                            "phoneticNotation": "IPA",
+                            "phoneticSpelling": "meɪt"
+                        }
+                    ],
+                    "text": "mate"
+                },
+                {
+                    "derivatives": [
+                        {
+                            "id": "mateless",
+                            "text": "mateless"
+                        }
+                    ],
+                    "entries": [
+                        {
+                            "homographNumber": "101",
+                            "senses": [
+                                {
+                                    "definitions": [
+                                        "(of animals or birds) come together for breeding; copulate"
+                                    ],
+                                    "examples": [
+                                        {
+                                            "text": "successful males may mate with many females"
+                                        },
+                                        {
+                                            "notes": [
+                                                {
+                                                    "text": "as noun \"mating\"",
+                                                    "type": "wordFormNote"
+                                                }
+                                            ],
+                                            "text": "ovulation occurs only if mating has taken place"
+                                        }
+                                    ],
+                                    "id": "m_en_gbus0623490.025",
+                                    "notes": [
+                                        {
+                                            "text": "no object",
+                                            "type": "grammaticalNote"
+                                        }
+                                    ],
+                                    "shortDefinitions": [
+                                        "copulate"
+                                    ],
+                                    "subsenses": [
+                                        {
+                                            "definitions": [
+                                                "bring (animals) together for breeding"
+                                            ],
+                                            "examples": [
+                                                {
+                                                    "text": "a male is mated to several females"
+                                                }
+                                            ],
+                                            "id": "m_en_gbus0623490.031",
+                                            "notes": [
+                                                {
+                                                    "text": "with object",
+                                                    "type": "grammaticalNote"
+                                                }
+                                            ],
+                                            "shortDefinitions": [
+                                                "bring animals together to breed"
+                                            ],
+                                            "thesaurusLinks": [
+                                                {
+                                                    "entry_id": "mate",
+                                                    "sense_id": "t_en_gb0009245.007"
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "thesaurusLinks": [
+                                        {
+                                            "entry_id": "mating",
+                                            "sense_id": "t_en_gb0009254.001"
+                                        },
+                                        {
+                                            "entry_id": "mating",
+                                            "sense_id": "t_en_gb0009254.002"
+                                        },
+                                        {
+                                            "entry_id": "mate",
+                                            "sense_id": "t_en_gb0009245.006"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "definitions": [
+                                        "connect or be connected mechanically"
+                                    ],
+                                    "domains": [
+                                        {
+                                            "id": "mechanics",
+                                            "text": "Mechanics"
+                                        }
+                                    ],
+                                    "examples": [
+                                        {
+                                            "notes": [
+                                                {
+                                                    "text": "with object",
+                                                    "type": "grammaticalNote"
+                                                }
+                                            ],
+                                            "text": "the four-cylinder engine is mated to a five-speed gearbox"
+                                        }
+                                    ],
+                                    "id": "m_en_gbus0623490.034",
+                                    "shortDefinitions": [
+                                        "connect or be connected"
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "language": "en-gb",
+                    "lexicalCategory": {
+                        "id": "verb",
+                        "text": "Verb"
+                    },
+                    "pronunciations": [
+                        {
+                            "audioFile": "http://audio.oxforddictionaries.com/en/mp3/mate_gb_1.mp3",
+                            "dialects": [
+                                "British English"
+                            ],
+                            "phoneticNotation": "IPA",
+                            "phoneticSpelling": "meɪt"
+                        }
+                    ],
+                    "text": "mate"
+                }
+            ],
+            "type": "headword",
+            "word": "mate"
+        },
+        {
+            "id": "mate",
+            "language": "en-gb",
+            "lexicalEntries": [
+                {
+                    "entries": [
+                        {
+                            "etymologies": [
+                                "Middle English: the noun from Anglo-Norman French mat (from the phrase eschec mat‘checkmate’); the verb from Anglo-Norman French mater‘to checkmate’"
+                            ],
+                            "grammaticalFeatures": [
+                                {
+                                    "id": "mass",
+                                    "text": "Mass",
+                                    "type": "Countability"
+                                }
+                            ],
+                            "homographNumber": "200",
+                            "senses": [
+                                {
+                                    "crossReferenceMarkers": [
+                                        "short for checkmate (noun)"
+                                    ],
+                                    "crossReferences": [
+                                        {
+                                            "id": "checkmate",
+                                            "text": "checkmate",
+                                            "type": "abbreviation of"
+                                        }
+                                    ],
+                                    "domains": [
+                                        {
+                                            "id": "chess",
+                                            "text": "Chess"
+                                        },
+                                        {
+                                            "id": "chess",
+                                            "text": "Chess"
+                                        }
+                                    ],
+                                    "id": "m_en_gbus0623500.005"
+                                }
+                            ]
+                        }
+                    ],
+                    "language": "en-gb",
+                    "lexicalCategory": {
+                        "id": "noun",
+                        "text": "Noun"
+                    },
+                    "pronunciations": [
+                        {
+                            "audioFile": "http://audio.oxforddictionaries.com/en/mp3/mate_gb_1.mp3",
+                            "dialects": [
+                                "British English"
+                            ],
+                            "phoneticNotation": "IPA",
+                            "phoneticSpelling": "meɪt"
+                        }
+                    ],
+                    "text": "mate"
+                },
+                {
+                    "entries": [
+                        {
+                            "grammaticalFeatures": [
+                                {
+                                    "id": "transitive",
+                                    "text": "Transitive",
+                                    "type": "Subcategorization"
+                                }
+                            ],
+                            "homographNumber": "201",
+                            "senses": [
+                                {
+                                    "crossReferenceMarkers": [
+                                        "short for checkmate (verb)"
+                                    ],
+                                    "crossReferences": [
+                                        {
+                                            "id": "checkmate",
+                                            "text": "checkmate",
+                                            "type": "abbreviation of"
+                                        }
+                                    ],
+                                    "domains": [
+                                        {
+                                            "id": "chess",
+                                            "text": "Chess"
+                                        },
+                                        {
+                                            "id": "chess",
+                                            "text": "Chess"
+                                        }
+                                    ],
+                                    "id": "m_en_gbus0623500.026"
+                                }
+                            ]
+                        }
+                    ],
+                    "language": "en-gb",
+                    "lexicalCategory": {
+                        "id": "verb",
+                        "text": "Verb"
+                    },
+                    "pronunciations": [
+                        {
+                            "audioFile": "http://audio.oxforddictionaries.com/en/mp3/mate_gb_1.mp3",
+                            "dialects": [
+                                "British English"
+                            ],
+                            "phoneticNotation": "IPA",
+                            "phoneticSpelling": "meɪt"
+                        }
+                    ],
+                    "text": "mate"
+                }
+            ],
+            "type": "headword",
+            "word": "mate"
+        },
+        {
+            "id": "mat%C3%A9",
+            "language": "en-gb",
+            "lexicalEntries": [
+                {
+                    "entries": [
+                        {
+                            "etymologies": [
+                                "early 18th century: from Spanish mate, from Quechua mati"
+                            ],
+                            "grammaticalFeatures": [
+                                {
+                                    "id": "mass",
+                                    "text": "Mass",
+                                    "type": "Countability"
+                                }
+                            ],
+                            "senses": [
+                                {
+                                    "definitions": [
+                                        "a bitter infusion of the leaves of a South American shrub, which is high in caffeine"
+                                    ],
+                                    "domains": [
+                                        {
+                                            "id": "drink",
+                                            "text": "Drink"
+                                        }
+                                    ],
+                                    "examples": [
+                                        {
+                                            "text": "maté has an agreeable slightly aromatic odor"
+                                        }
+                                    ],
+                                    "id": "m_en_gbus0623480.006",
+                                    "shortDefinitions": [
+                                        "bitter infusion of leaves of South American shrub"
+                                    ],
+                                    "subsenses": [
+                                        {
+                                            "definitions": [
+                                                "the leaves of the maté shrub."
+                                            ],
+                                            "id": "m_en_gbus0623480.009",
+                                            "shortDefinitions": [
+                                                "leaves of maté shrub"
+                                            ]
+                                        }
+                                    ],
+                                    "variantForms": [
+                                        {
+                                            "text": "maté tea"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "definitions": [
+                                        "the South American shrub of the holly family which produces maté leaves."
+                                    ],
+                                    "domains": [
+                                        {
+                                            "id": "plant",
+                                            "text": "Plant"
+                                        }
+                                    ],
+                                    "id": "m_en_gbus0623480.011",
+                                    "notes": [
+                                        {
+                                            "text": "Ilex paraguariensis, family Aquifoliaceae",
+                                            "type": "technicalNote"
+                                        }
+                                    ],
+                                    "shortDefinitions": [
+                                        "South American shrub of holly family which produces maté leaves"
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "language": "en-gb",
+                    "lexicalCategory": {
+                        "id": "noun",
+                        "text": "Noun"
+                    },
+                    "pronunciations": [
+                        {
+                            "audioFile": "http://audio.oxforddictionaries.com/en/mp3/mate_1_gb_1.mp3",
+                            "dialects": [
+                                "British English"
+                            ],
+                            "phoneticNotation": "IPA",
+                            "phoneticSpelling": "ˈmateɪ"
+                        }
+                    ],
+                    "text": "maté"
+                }
+            ],
+            "type": "headword",
+            "word": "maté"
+        }
+    ],
+    "word": "mate"
+}
