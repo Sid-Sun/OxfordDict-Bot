@@ -104,8 +104,10 @@ func handleUpdate(bot *tgbotapi.BotAPI, update tgbotapi.Update)  {
 	msg.ReplyToMessageID = update.Message.MessageID
 	sensesCount := gjson.Get(response, "results.0.lexicalEntries.0.entries.0.senses.#").String()
 	numberOfSenses, _ := strconv.Atoi(sensesCount)
-	numberOfSenses--
-	msg.ReplyMarkup = newThreeButtonInlineKeyboard("1/"+sensesCount, []string{strconv.Itoa(numberOfSenses), "1"})
+	if numberOfSenses > 1 {
+		numberOfSenses--
+		msg.ReplyMarkup = newThreeButtonInlineKeyboard("1/"+sensesCount, []string{strconv.Itoa(numberOfSenses), "1"})
+	}
 	if _, err := bot.Send(msg); err != nil {
 		fmt.Println(err.Error())
 	}
