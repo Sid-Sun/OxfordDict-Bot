@@ -37,9 +37,6 @@ func main() {
 
 func getUpdates(bot *tgbotapi.BotAPI, updates tgbotapi.UpdatesChannel) {
 	for update := range updates {
-		if update.Message == nil {
-			continue
-		}
 		go handleUpdate(bot, update)
 	}
 }
