@@ -25,9 +25,9 @@ func getMessage(response string, index int, query string) (string, bool) {
 	if definition == "" {
 		return "", false
 	}
-	examples := strings.ToUpper(gjson.Get(response, "results.0.lexicalEntries.0.entries.0.senses."+strconv.Itoa(index)+".examples.0.text").String())
+	examples := gjson.Get(response, "results.0.lexicalEntries.0.entries.0.senses."+strconv.Itoa(index)+".examples.0.text").String()
 	provider := gjson.Get(response, "metadata.provider").String()
-	language := strings.ToUpper(gjson.Get(response, "results.0.lexicalEntries.0.entries.language").String())
+	language := strings.ToUpper(gjson.Get(response, "results.0.lexicalEntries.0.language").String())
 	lexicalCategory := gjson.Get(response, "results.0.lexicalEntries.0.lexicalCategory.text").String()
 	message := query + " by " + provider
 	if language != "" {
