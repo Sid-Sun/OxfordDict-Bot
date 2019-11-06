@@ -82,6 +82,9 @@ func handleUpdate(bot *tgbotapi.BotAPI, update tgbotapi.Update)  {
 	if update.Message == nil { // ignore any non-Message Updates
 		return
 	}
+	if update.Message.Text == "" { // Don't look at anything that isn't text!
+		return
+	}
 	response, err := getDefinition(strings.ToLower(strings.Fields(update.Message.Text)[0]))
 	if err != nil {
 		fmt.Println(err.Error())
