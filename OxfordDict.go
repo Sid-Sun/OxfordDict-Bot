@@ -22,7 +22,7 @@ func main() {
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-	threads, err := strconv.Atoi(os.Getenv("API_TOKEN"))
+	threads, err := strconv.Atoi(os.Getenv("NUMBER_OF_THREADS"))
 	if err != nil {
 		fmt.Println(err.Error())
 		threads = 2
