@@ -31,10 +31,10 @@ func getMessage(response string, index int, query string) (string, bool) {
 	lexicalCategory := gjson.Get(response, "results.0.lexicalEntries.0.lexicalCategory.text").String()
 	message := query + " by " + provider
 	if language != "" {
-		message += "\n\nLanguage: " + language
+		message += "\n\nLanguage: \n" + language
 	}
 	message += "\n\nDefinition: \n" + definition
-	message += "\n\nLexical Category: " + lexicalCategory
+	message += "\n\nLexical Category: \n" + lexicalCategory
 	if examples != "" {
 		message += "\n\nExamples: \n" + examples
 	}
