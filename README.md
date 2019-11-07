@@ -1,14 +1,15 @@
-# Oxford Dictionary Search
+# *Oxford* Dictionary Search
 
 ## A Telegram bot to query the Oxford English Dictionary 
 
-### Oxford Dictionary Search bot finds the:
+###  Oxford Dictionary Search bot finds the:
 
-* Definition 
-* Examples
-* Lexical Category
-* Language
+* **Definition** 
+* **Examples**
+* **Lexical Category**
+* **Language**
 
-### For all the available senses of the search query
+### For *all* the available senses of the searched word
 
-:P
+**:P**
+
