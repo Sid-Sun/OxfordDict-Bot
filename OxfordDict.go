@@ -72,11 +72,10 @@ func handleUpdate(bot *tgbotapi.BotAPI, update tgbotapi.Update)  {
 		temp := tgbotapi.NewEditMessageText(int64(update.CallbackQuery.From.ID), update.CallbackQuery.Message.MessageID, message)
 		newInlineKeyboardMarkup := newThreeButtonInlineKeyboard(strconv.Itoa(current+1)+"/"+strconv.Itoa(sensesCount), []string{strconv.Itoa(previous), strconv.Itoa(next)})
 		temp.ReplyMarkup = &newInlineKeyboardMarkup
-		mess, err := bot.Send(temp)
+		_, err = bot.Send(temp)
 		if err != nil {
 			fmt.Println(err.Error())
 		}
-		fmt.Println(mess)
 		return
 	}
 	if update.Message == nil { // ignore any non-Message Updates
