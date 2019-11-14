@@ -1,0 +1,6 @@
+version: '3'
+services:
+  oxford-bot:
+    restart: always
+    image: realsidsun/oxford-dict-bot
+    env_file: oxford_bot.env
