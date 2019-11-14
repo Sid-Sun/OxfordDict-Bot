@@ -20,7 +20,7 @@ func newThreeButtonInlineKeyboard(count string, data []string) tgbotapi.InlineKe
 	)
 }
 
-func getMessage(response string, index int, query string) (string, bool) {
+func getFormattedMessage(response string, index int, query string) (string, bool) {
 	definition := gjson.Get(response, "results.0.lexicalEntries.0.entries.0.senses."+strconv.Itoa(index)+".definitions.0").String()
 	if definition == "" {
 		return "", false

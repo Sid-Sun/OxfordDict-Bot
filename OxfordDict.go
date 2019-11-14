@@ -42,6 +42,9 @@ func getUpdates(bot *tgbotapi.BotAPI, updates tgbotapi.UpdatesChannel) {
 }
 
 func handleUpdate(bot *tgbotapi.BotAPI, update tgbotapi.Update)  {
+	// We will be treating each sense of the word as a node
+	// In a circular doubly linked list for the sake of simplicity
+	// In implementing the desired behaviour
 	if update.CallbackQuery != nil {
 		response, err := getDefinition(strings.ToLower(strings.Fields(update.CallbackQuery.Message.ReplyToMessage.Text)[0]))
 		if err != nil {
@@ -68,7 +71,7 @@ func handleUpdate(bot *tgbotapi.BotAPI, update tgbotapi.Update)  {
 			next = data + 1
 			previous = sensesCount - 1
 		}
-		message, _ := getMessage(response, current, strings.Fields(update.CallbackQuery.Message.ReplyToMessage.Text)[0])
+		message, _ := getFormattedMessage(response, current, strings.Fields(update.CallbackQuery.Message.ReplyToMessage.Text)[0])
 		temp := tgbotapi.NewEditMessageText(int64(update.CallbackQuery.From.ID), update.CallbackQuery.Message.MessageID, message)
 		newInlineKeyboardMarkup := newThreeButtonInlineKeyboard(strconv.Itoa(current+1)+"/"+strconv.Itoa(sensesCount), []string{strconv.Itoa(previous), strconv.Itoa(next)})
 		temp.ReplyMarkup = &newInlineKeyboardMarkup
@@ -84,30 +87,30 @@ func handleUpdate(bot *tgbotapi.BotAPI, update tgbotapi.Update)  {
 	if update.Message.Text == "" { // Don't look at anything that isn't text!
 		return
 	}
-	response, err := getDefinition(strings.ToLower(strings.Fields(update.Message.Text)[0]))
+	definition, err := getDefinition(strings.ToLower(strings.Fields(update.Message.Text)[0]))
 	if err != nil {
 		fmt.Println(err.Error())
 		return
 	}
-	var message string
+	var formattedMesage string
 	var successful bool
-	if message, successful = getMessage(response, 0, strings.Fields(update.Message.Text)[0]); !successful {
-		msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Sorry, I could not find definition for "+update.Message.Text)
-		msg.ReplyToMessageID = update.Message.MessageID
-		if _, err := bot.Send(msg); err != nil {
+	firstWord :=  strings.Fields(update.Message.Text)[0]
+	initialSenseNumber := 0
+	if formattedMesage, successful = getFormattedMessage(definition, initialSenseNumber, firstWord); !successful {
+		definitionNotFoundMessage := tgbotapi.NewMessage(update.Message.Chat.ID, "Sorry, I could not find definition for "+update.Message.Text)
+		definitionNotFoundMessage.ReplyToMessageID = update.Message.MessageID
+		if _, err := bot.Send(definitionNotFoundMessage); err != nil {
 			fmt.Println(err.Error())
 		}
 		return
 	}
-	msg := tgbotapi.NewMessage(update.Message.Chat.ID, message)
-	msg.ReplyToMessageID = update.Message.MessageID
-	sensesCount := gjson.Get(response, "results.0.lexicalEntries.0.entries.0.senses.#").String()
-	numberOfSenses, _ := strconv.Atoi(sensesCount)
+	newMessage := tgbotapi.NewMessage(update.Message.Chat.ID, formattedMesage)
+	newMessage.ReplyToMessageID = update.Message.MessageID
+	numberOfSenses, _ := strconv.Atoi(gjson.Get(definition, "results.0.lexicalEntries.0.entries.0.senses.#").String())
 	if numberOfSenses > 1 {
-		numberOfSenses--
-		msg.ReplyMarkup = newThreeButtonInlineKeyboard("1/"+sensesCount, []string{strconv.Itoa(numberOfSenses), "1"})
+		newMessage.ReplyMarkup = newThreeButtonInlineKeyboard("1/"+strconv.Itoa(numberOfSenses), []string{strconv.Itoa(numberOfSenses -1), "1"})
 	}
-	if _, err := bot.Send(msg); err != nil {
+	if _, err := bot.Send(newMessage); err != nil {
 		fmt.Println(err.Error())
 	}
 }
