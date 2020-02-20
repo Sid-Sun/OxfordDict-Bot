@@ -79,6 +79,11 @@ func handleUpdate(bot *tgbotapi.BotAPI, update tgbotapi.Update)  {
 		if err != nil {
 			fmt.Println(err.Error())
 		}
+		newCallBackConfig := tgbotapi.NewCallback(update.CallbackQuery.ID, "")
+		_, err = bot.AnswerCallbackQuery(newCallBackConfig)
+		if err != nil {
+			fmt.Println(err.Error())
+		}
 		return
 	}
 	if update.Message == nil { // ignore any non-Message Updates
