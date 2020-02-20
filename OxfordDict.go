@@ -92,16 +92,25 @@ func handleUpdate(bot *tgbotapi.BotAPI, update tgbotapi.Update)  {
 	if update.Message.Text == "" { // Don't look at anything that isn't text!
 		return
 	}
-	definition, err := getDefinition(strings.ToLower(strings.Fields(update.Message.Text)[0]))
+	firstWord :=  strings.Fields(update.Message.Text)[0]
+	query := strings.ToLower(firstWord)
+	if query == "/start" {
+		helloMessage := tgbotapi.NewMessage(update.Message.Chat.ID, "Hello! I am the Oxford English Dictionary Search Bot, tell me what you want to lookup and I'll let you know!")
+		helloMessage.ReplyToMessageID = update.Message.MessageID
+		if _, err := bot.Send(helloMessage); err != nil {
+			fmt.Println(err.Error())
+		}
+		return
+	}
+	definition, err := getDefinition(query)
 	if err != nil {
 		fmt.Println(err.Error())
 		return
 	}
-	var formattedMesage string
+	var formattedMessage string
 	var successful bool
-	firstWord :=  strings.Fields(update.Message.Text)[0]
 	initialSenseNumber := 0
-	if formattedMesage, successful = getFormattedMessage(definition, initialSenseNumber, firstWord); !successful {
+	if formattedMessage, successful = getFormattedMessage(definition, initialSenseNumber, firstWord); !successful {
 		definitionNotFoundMessage := tgbotapi.NewMessage(update.Message.Chat.ID, "Sorry, I could not find definition for "+update.Message.Text)
 		definitionNotFoundMessage.ReplyToMessageID = update.Message.MessageID
 		if _, err := bot.Send(definitionNotFoundMessage); err != nil {
@@ -109,7 +118,7 @@ func handleUpdate(bot *tgbotapi.BotAPI, update tgbotapi.Update)  {
 		}
 		return
 	}
-	newMessage := tgbotapi.NewMessage(update.Message.Chat.ID, formattedMesage)
+	newMessage := tgbotapi.NewMessage(update.Message.Chat.ID, formattedMessage)
 	newMessage.ReplyToMessageID = update.Message.MessageID
 	numberOfSenses, _ := strconv.Atoi(gjson.Get(definition, "results.0.lexicalEntries.0.entries.0.senses.#").String())
 	if numberOfSenses > 1 {
