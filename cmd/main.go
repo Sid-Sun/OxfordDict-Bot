@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/sid-sun/sample-bot/cmd/config"
-	"github.com/sid-sun/sample-bot/pkg/bot"
+	"github.com/sid-sun/OxfordDict-Bot/cmd/config"
+	"github.com/sid-sun/OxfordDict-Bot/pkg/bot"
 )
 
 func main() {

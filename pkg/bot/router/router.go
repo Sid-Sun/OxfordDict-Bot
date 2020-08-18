@@ -2,8 +2,8 @@ package router
 
 import (
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
-	"github.com/sid-sun/sample-bot/cmd/config"
-	"github.com/sid-sun/sample-bot/pkg/bot/handlers/repeat"
+	"github.com/sid-sun/OxfordDict-Bot/cmd/config"
+	"github.com/sid-sun/OxfordDict-Bot/pkg/bot/handlers/repeat"
 	"go.uber.org/zap"
 )
 
@@ -13,7 +13,7 @@ type updates struct {
 	logger *zap.Logger
 }
 
-// ListenAndServe starts listens on the update channel and handles routing the update to handlers
+// ListenAndServe listens on the update channel and handles routing the update to handlers
 func (u updates) ListenAndServe() {
 	for update := range u.ch {
 		update := update

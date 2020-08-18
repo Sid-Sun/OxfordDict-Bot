@@ -4,13 +4,13 @@ import (
 	"os"
 )
 
-// Config contains all the neccessary configurations
+// Config contains all the necessary configurations
 type Config struct {
 	Bot         BotConfig
 	environment string
 }
 
-// GetEnv returns the current developemnt environment
+// GetEnv returns the current development environment
 func (c Config) GetEnv() string {
 	return c.environment
 }
