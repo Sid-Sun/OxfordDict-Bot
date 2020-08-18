@@ -1,0 +1,8 @@
+out
+.idea/
+.vscode
+*.env
+*.iml
+*.DS_Store
+vendor/
+*.out
