@@ -8,6 +8,7 @@ import (
 type Config struct {
 	Bot         BotConfig
 	environment string
+	API         APIConfig
 }
 
 // GetEnv returns the current development environment
@@ -21,6 +22,11 @@ func Load() Config {
 		environment: os.Getenv("APP_ENV"),
 		Bot: BotConfig{
 			tkn: os.Getenv("API_TOKEN"),
+			adminChatID: os.Getenv("ADMIN_CHAT_ID"),
+		},
+		API: APIConfig{
+			id:  os.Getenv("APP_ID"),
+			key: os.Getenv("APP_KEY"),
 		},
 	}
 }
