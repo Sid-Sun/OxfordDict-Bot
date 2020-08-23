@@ -17,11 +17,15 @@ type Response struct {
 // GetFormatted returns formatted string for response
 func (d Response) GetFormatted(index int) string {
 	// Get required data
-	definition := d.APIResponse.Results[0].LexicalEntries[0].Entries[0].Senses[index].Definitions[0]
+	var definition string
+	if len(d.APIResponse.Results[0].LexicalEntries[0].Entries[0].Senses[index].Definitions) > 0 {
+		definition = d.APIResponse.Results[0].LexicalEntries[0].Entries[0].Senses[index].Definitions[0]
+	}
 	var example string
 	if len(d.APIResponse.Results[0].LexicalEntries[0].Entries[0].Senses[index].Examples) > 0 {
 		example = d.APIResponse.Results[0].LexicalEntries[0].Entries[0].Senses[index].Examples[0].Text
 	}
+
 	provider := d.APIResponse.Metadata.Provider
 	language := d.APIResponse.Results[0].LexicalEntries[0].Language
 	lexicalCategory := d.APIResponse.Results[0].LexicalEntries[0].LexicalCategory.Text
@@ -31,10 +35,12 @@ func (d Response) GetFormatted(index int) string {
 	if language != "" {
 		message += "\n\nLanguage: \n" + language
 	}
-	message += "\n\nDefinition: \n" + definition
+	if definition != "" {
+		message += "\n\nDefinition: \n" + definition
+	}
 	message += "\n\nLexical Category: \n" + lexicalCategory
 	if example != "" {
-		message += "\n\nExamples: \n" + example
+		message += "\n\nExample: \n" + example
 	}
 
 	return message
@@ -53,7 +59,7 @@ func (k KeyboardConfig) Keyboard() botAPI.InlineKeyboardMarkup {
 	return botAPI.NewInlineKeyboardMarkup(
 		botAPI.NewInlineKeyboardRow(
 			botAPI.NewInlineKeyboardButtonData("⬅️", strconv.Itoa(k.Prev)),
-			botAPI.NewInlineKeyboardButtonData(fmt.Sprintf("%d/%d", k.Current, k.Total), "nah"),
+			botAPI.NewInlineKeyboardButtonData(fmt.Sprintf("%d/%d", k.Current+1, k.Total), "nah"),
 			botAPI.NewInlineKeyboardButtonData("➡️", strconv.Itoa(k.Next)),
 		),
 	)
