@@ -54,7 +54,7 @@ func Handler(bot *botAPI.BotAPI, update botAPI.Update, logger *zap.Logger, svc s
 			reply = botAPI.NewEditMessageText(int64(update.CallbackQuery.From.ID), update.CallbackQuery.Message.MessageID, fmt.Sprintf("Sorry, An internal error occurred. Please contact %s.", fmt.Sprintf("[%s](tg://user?id=%d)", name, adminChatID)))
 			reply.ParseMode = "markdown"
 		} else {
-			reply = botAPI.NewEditMessageText(int64(update.CallbackQuery.From.ID), update.CallbackQuery.Message.MessageID, "Sorry, An internal error occurred. Admins have been informed.")
+			reply = botAPI.NewEditMessageText(int64(update.CallbackQuery.From.ID), update.CallbackQuery.Message.MessageID, "Sorry, An internal error occurred. Please try again later. Admins have been informed.")
 		}
 		if _, err := bot.Send(reply); err != nil {
 			logger.Error(fmt.Sprintf("[%s] [Handler] [GetDefinition] [Error] [Send]", handler))

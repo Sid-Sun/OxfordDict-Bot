@@ -34,13 +34,16 @@ func NewService(logger *zap.Logger, cfg config.APIConfig) Service {
 // GetDefinition makes a call to Dictionaries API and returns an instance of api.Response
 func (b BotService) GetDefinition(query string) (api.Response, error) {
 	client := &http.Client{}
+
 	req, err := http.NewRequest("GET", "https://od-api.oxforddictionaries.com:443/api/v2/entries/en/"+strings.ToLower(query), nil)
 	if err != nil {
 		b.logger.Error(fmt.Sprintf("[Service] [BotService] [GetDefinition] [NewRequest] %v", err))
 		return api.Response{}, err
 	}
+
 	req.Header.Add(apiAppIDHeader, b.apiConfig.GetID())
 	req.Header.Add(apiAppKeyHeader, b.apiConfig.GetKey())
+
 	res, err := client.Do(req)
 	if err != nil {
 		b.logger.Error(fmt.Sprintf("[Service] [BotService] [GetDefinition] [Do] %v", err))
@@ -51,6 +54,12 @@ func (b BotService) GetDefinition(query string) (api.Response, error) {
 		b.logger.Error(fmt.Sprintf("[Service] [BotService] [GetDefinition] [StatusOK] %v", err))
 		return api.Response{}, err
 	}
+	if contentType := strings.Split(res.Header.Get("Content-Type"), ";")[0]; contentType != "application/json" {
+		err = fmt.Errorf("invalid response Content Type: %s", contentType)
+		b.logger.Error(fmt.Sprintf("[Service] [BotService] [GetDefinition] [ContentTypeJSON] %v", err))
+		return api.Response{}, err
+	}
+
 	defer res.Body.Close()
 	data, err := ioutil.ReadAll(res.Body)
 	if err != nil {

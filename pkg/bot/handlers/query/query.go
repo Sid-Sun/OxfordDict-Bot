@@ -41,7 +41,7 @@ func Handler(bot *botAPI.BotAPI, update botAPI.Update, logger *zap.Logger, svc s
 			reply = botAPI.NewMessage(update.Message.Chat.ID, fmt.Sprintf("Sorry, An internal error occurred. Please contact %s.", fmt.Sprintf("[%s](tg://user?id=%d)", name, adminChatID)))
 			reply.ParseMode = "markdown"
 		} else {
-			reply = botAPI.NewMessage(update.Message.Chat.ID, "Sorry, An internal error occurred. Admins have been informed.")
+			reply = botAPI.NewMessage(update.Message.Chat.ID, "Sorry, An internal error occurred. Please try again later. Admins have been informed.")
 		}
 		reply.ReplyToMessageID = update.Message.MessageID
 		if _, err := bot.Send(reply); err != nil {
@@ -51,7 +51,6 @@ func Handler(bot *botAPI.BotAPI, update botAPI.Update, logger *zap.Logger, svc s
 	}
 
 	if definition.IsEmpty() {
-		fmt.Println(definition)
 		logger.Info(fmt.Sprintf("[%s] [Handler] [GetDefinition] [IsEmpty]", handler))
 		reply := botAPI.NewMessage(update.Message.Chat.ID, "Sorry, I could not find definition for "+query)
 		reply.ReplyToMessageID = update.Message.MessageID
