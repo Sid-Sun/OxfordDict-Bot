@@ -1,0 +1,7 @@
+version: '3.7'
+
+services: 
+    bot:
+        # image: realsidsun/oxford-dict-bot:latest
+        build: .
+        env_file: dev.env
