@@ -3,6 +3,7 @@ package service
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/sid-sun/OxfordDict-Bot/pkg/bot/store"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -21,18 +22,26 @@ type Service interface {
 type BotService struct {
 	logger    *zap.Logger
 	apiConfig config.APIConfig
+	store     store.Store
 }
 
 // NewService returns a new BotService instance
-func NewService(logger *zap.Logger, cfg config.APIConfig) Service {
+func NewService(logger *zap.Logger, cfg config.APIConfig, str store.Store) Service {
 	return BotService{
 		logger:    logger,
 		apiConfig: cfg,
+		store:     str,
 	}
 }
 
 // GetDefinition makes a call to Dictionaries API and returns an instance of api.Response
 func (b BotService) GetDefinition(query string) (api.Response, error) {
+	// Check if cache has definition
+	r := b.store.Get(query)
+	if !r.IsEmpty() {
+		return r, nil
+	}
+
 	client := &http.Client{}
 
 	req, err := http.NewRequest("GET", "https://od-api.oxforddictionaries.com:443/api/v2/entries/en/"+strings.ToLower(query), nil)
@@ -66,11 +75,15 @@ func (b BotService) GetDefinition(query string) (api.Response, error) {
 		b.logger.Error(fmt.Sprintf("[Service] [BotService] [GetDefinition] [ReadAll] %v", err))
 		return api.Response{}, err
 	}
-	var r api.Response
 	err = json.Unmarshal(data, &r)
 	if err != nil {
 		b.logger.Error(fmt.Sprintf("[Service] [BotService] [GetDefinition] [Unmarshal] %v", err))
 		return api.Response{}, err
+	}
+
+	// Cache response in memory
+	if r.NumberOfDefinitions() > 1 {
+		b.store.Put(query, r)
 	}
 	return r, nil
 }
