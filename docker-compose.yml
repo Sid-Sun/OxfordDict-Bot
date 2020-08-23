@@ -1,7 +1,12 @@
 version: '3.7'
 
-services: 
+services:
+    redis:
+        image: redis:6.0-alpine
     bot:
         # image: realsidsun/oxford-dict-bot:latest
         build: .
         env_file: dev.env
+        depends_on:
+            - redis
+        
