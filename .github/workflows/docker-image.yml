@@ -1,0 +1,20 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Buildimg and pumsh image to Docker HuB!
+        env:
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKER_ID: ${{ secrets.DOCKER_ID }}
+        run: |
+          docker build . --file Dockerfile --tag $DOCKER_ID/oxford-dict-bot:latest
+          echo $DOCKER_PASSWORD | docker login -u $DOCKER_ID --password-stdin
+          docker push $DOCKER_ID/oxford-dict-bot:latest
