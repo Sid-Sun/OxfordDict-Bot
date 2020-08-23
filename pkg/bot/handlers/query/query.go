@@ -74,7 +74,7 @@ func Handler(bot *botAPI.BotAPI, update botAPI.Update, logger *zap.Logger, svc s
 
 	if numberOfDefinitions > 1 {
 		keyboardConfig := contract.KeyboardConfig{
-			Current: 1,
+			Current: initialIndex,
 			Prev:    numberOfDefinitions - 1,
 			Total:   numberOfDefinitions,
 			Next:    1,

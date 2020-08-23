@@ -87,7 +87,7 @@ func Handler(bot *botAPI.BotAPI, update botAPI.Update, logger *zap.Logger, svc s
 
 	keyboard := contract.KeyboardConfig{
 		Total:   numberOfDefinitions,
-		Current: current + 1,
+		Current: current,
 		Next:    next,
 		Prev:    previous,
 	}.Keyboard()
