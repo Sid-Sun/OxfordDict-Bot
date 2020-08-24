@@ -82,7 +82,7 @@ func (b BotService) GetDefinition(query string) (api.Response, error) {
 	}
 
 	// Cache response in memory
-	if r.NumberOfDefinitions() > 1 {
+	if !r.IsEmpty() && r.NumberOfDefinitions() > 1 {
 		b.store.Put(query, r)
 	}
 	return r, nil

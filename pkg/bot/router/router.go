@@ -30,7 +30,7 @@ func (u Updates) ListenAndServe() {
 				callback.Handler(u.bot.bot, update, u.bot.logger, u.bot.svc, u.bot.adminChatID)
 				return
 			}
-			if update.Message == nil {
+			if update.Message == nil || update.Message.Text == "" {
 				return
 			}
 			if cmd := update.Message.Command(); cmd != "" {
