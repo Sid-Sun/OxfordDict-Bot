@@ -57,6 +57,7 @@ func Handler(bot *botAPI.BotAPI, update botAPI.Update, logger *zap.Logger, svc s
 		if _, err := bot.Send(reply); err != nil {
 			logger.Error(fmt.Sprintf("[%s] [Handler] [GetDefinition] [IsEmpty] [Send]", handler))
 		}
+		logger.Info("[Query] [Success]")
 		return
 	}
 
