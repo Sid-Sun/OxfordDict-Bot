@@ -3,10 +3,11 @@ package service
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/sid-sun/OxfordDict-Bot/pkg/bot/store"
 	"io/ioutil"
 	"net/http"
 	"strings"
+
+	"github.com/sid-sun/OxfordDict-Bot/pkg/bot/store"
 
 	"github.com/sid-sun/OxfordDict-Bot/cmd/config"
 	"github.com/sid-sun/OxfordDict-Bot/pkg/bot/contract/api"
@@ -26,10 +27,10 @@ type BotService struct {
 }
 
 // NewService returns a new BotService instance
-func NewService(logger *zap.Logger, cfg config.APIConfig, str store.Store) Service {
+func NewService(logger *zap.Logger, cfg *config.APIConfig, str store.Store) Service {
 	return BotService{
 		logger:    logger,
-		apiConfig: cfg,
+		apiConfig: *cfg,
 		store:     str,
 	}
 }
@@ -50,8 +51,10 @@ func (b BotService) GetDefinition(query string) (api.Response, error) {
 		return api.Response{}, err
 	}
 
-	req.Header.Add(apiAppIDHeader, b.apiConfig.GetID())
-	req.Header.Add(apiAppKeyHeader, b.apiConfig.GetKey())
+	c := b.apiConfig.GetConfig()
+	fmt.Println(c)
+	req.Header.Add(apiAppIDHeader, c.GetID())
+	req.Header.Add(apiAppKeyHeader, c.GetKey())
 
 	res, err := client.Do(req)
 	if err != nil {

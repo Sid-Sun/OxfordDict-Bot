@@ -3,6 +3,7 @@ package config
 import (
 	"os"
 	"strconv"
+	"strings"
 )
 
 // Config contains all the necessary configurations
@@ -35,10 +36,7 @@ func Load() Config {
 			tkn:         os.Getenv("API_TOKEN"),
 			adminChatID: os.Getenv("ADMIN_CHAT_ID"),
 		},
-		API: APIConfig{
-			id:  os.Getenv("APP_ID"),
-			key: os.Getenv("APP_KEY"),
-		},
+		API: NewAPIConfig(strings.Split(os.Getenv("APP_IDS"), ";"), strings.Split(os.Getenv("APP_KEYS"), ";")),
 		Redis: RedisConfig{
 			host:     os.Getenv("REDIS_HOST"),
 			port:     port,

@@ -19,7 +19,7 @@ func StartBot(cfg config.Config, logger *zap.Logger) {
 		panic(err)
 	}
 	str := store.NewStore(store.NewInstance(rdc, logger))
-	svc := service.NewService(logger, cfg.API, str)
+	svc := service.NewService(logger, &cfg.API, str)
 	ch := router.New(cfg.Bot, logger, svc).NewUpdateChan()
 
 	logger.Info("[StartBot] Starting")
