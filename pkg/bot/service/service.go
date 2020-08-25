@@ -30,7 +30,7 @@ type BotService struct {
 func NewService(logger *zap.Logger, cfg *config.APIConfig, str store.Store) Service {
 	return BotService{
 		logger:    logger,
-		apiConfig: *cfg,
+		apiConfig: cfg,
 		store:     str,
 	}
 }
