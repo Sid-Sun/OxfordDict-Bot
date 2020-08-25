@@ -22,7 +22,7 @@ type Service interface {
 // BotService implements Service with logger
 type BotService struct {
 	logger    *zap.Logger
-	apiConfig config.APIConfig
+	apiConfig *config.APIConfig
 	store     store.Store
 }
 
@@ -51,8 +51,10 @@ func (b BotService) GetDefinition(query string) (api.Response, error) {
 		return api.Response{}, err
 	}
 
-	c := b.apiConfig.GetConfig()
-	fmt.Println(c)
+	c, err := b.apiConfig.GetConfig()
+	if err != nil {
+		return api.Response{}, err
+	}
 	req.Header.Add(apiAppIDHeader, c.GetID())
 	req.Header.Add(apiAppKeyHeader, c.GetKey())
 
@@ -62,7 +64,12 @@ func (b BotService) GetDefinition(query string) (api.Response, error) {
 		return api.Response{}, err
 	}
 	if res.StatusCode != http.StatusOK && res.StatusCode != http.StatusNotFound {
-		err = fmt.Errorf("status code not OK: %d", res.StatusCode)
+		switch res.StatusCode {
+		case http.StatusForbidden:
+			err = fmt.Errorf("status code not OK: %d Cfg: %v", res.StatusCode, c)
+		default:
+			err = fmt.Errorf("status code not OK: %d", res.StatusCode)
+		}
 		b.logger.Error(fmt.Sprintf("[Service] [BotService] [GetDefinition] [StatusOK] %v", err))
 		return api.Response{}, err
 	}

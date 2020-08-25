@@ -3,7 +3,7 @@ package config
 import (
 	"errors"
 
-	list "github.com/nsnikhil/go-datastructures/list"
+	queue "github.com/nsnikhil/go-datastructures/queue"
 )
 
 // Node contains the id and key for API
@@ -24,24 +24,14 @@ func (c Node) GetKey() string {
 
 // APIConfig defines config for API
 type APIConfig struct {
-	current      Node
-	currentIndex int
-	total        int
-	list         *list.ArrayList
+	lqueue *queue.LinkedQueue
 }
 
 // GetConfig returns a config instance
-func (c *APIConfig) GetConfig() Node {
-	cfg := c.current
-
-	c.currentIndex = c.currentIndex + 1
-	if c.currentIndex >= c.total {
-		c.currentIndex = 0
-	}
-
-	c.current = c.list.Get(c.currentIndex).(Node)
-
-	return cfg
+func (c *APIConfig) GetConfig() (Node, error) {
+	node, error := c.lqueue.Remove()
+	c.lqueue.Add(node)
+	return node.(Node), error
 }
 
 // NewAPIConfig creates a new APIConfig and list
@@ -50,22 +40,19 @@ func NewAPIConfig(ids, keys []string) APIConfig {
 		panic(errors.New("length of ids and keys should be equal and not 0"))
 	}
 
-	al, err := list.NewArrayList()
+	lq, err := queue.NewLinkedQueue()
 	if err != nil {
 		panic(err)
 	}
 
 	for i, id := range ids {
-		al.Add(Node{
+		lq.Add(Node{
 			id:  id,
 			key: keys[i],
 		})
 	}
 
 	return APIConfig{
-		current:      al.Get(0).(Node),
-		currentIndex: 0,
-		total:        len(ids),
-		list:         al,
+		lqueue: lq,
 	}
 }
