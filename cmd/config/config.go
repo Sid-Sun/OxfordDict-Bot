@@ -29,6 +29,14 @@ func Load() Config {
 	if err != nil {
 		panic(err)
 	}
+	
+	var ssl bool
+	if os.Getenv("REDIS_SSL") != "" {
+		ssl, err = strconv.ParseBool(os.Getenv("REDIS_SSL"))
+		if err != nil {
+			panic(err)
+		}
+	}
 
 	return Config{
 		environment: os.Getenv("APP_ENV"),
@@ -42,6 +50,7 @@ func Load() Config {
 			port:     port,
 			password: os.Getenv("REDIS_PASS"),
 			db:       db,
+			ssl:      ssl,
 		},
 	}
 }

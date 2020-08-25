@@ -2,6 +2,8 @@ package store
 
 import (
 	"context"
+	"crypto/tls"
+
 	"github.com/go-redis/redis/v8"
 	"github.com/sid-sun/OxfordDict-Bot/cmd/config"
 	"go.uber.org/zap"
@@ -28,10 +30,15 @@ func NewClient(lgr *zap.Logger, cfg config.RedisConfig) ClientInterface {
 
 // GetClient creates and returns a new Redis client
 func (c Client) GetClient() (*redis.Client, error) {
+	var t *tls.Config
+	if c.config.SSL() {
+		t = &tls.Config{MinVersion: tls.VersionTLS12}
+	}
 	rdb := redis.NewClient(&redis.Options{
-		Addr:     c.config.Address(),
-		Password: c.config.Password(),
-		DB:       c.config.DB(),
+		Addr:      c.config.Address(),
+		Password:  c.config.Password(),
+		DB:        c.config.DB(),
+		TLSConfig: t,
 	})
 
 	_, err := rdb.Ping(context.Background()).Result()
