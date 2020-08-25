@@ -51,8 +51,10 @@ func (b BotService) GetDefinition(query string) (api.Response, error) {
 		return api.Response{}, err
 	}
 
-	c := b.apiConfig.GetConfig()
-	fmt.Println(c)
+	c, err := b.apiConfig.GetConfig()
+	if err != nil {
+		return api.Response{}, err
+	}
 	req.Header.Add(apiAppIDHeader, c.GetID())
 	req.Header.Add(apiAppKeyHeader, c.GetKey())
 
