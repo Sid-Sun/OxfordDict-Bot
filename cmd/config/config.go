@@ -1,9 +1,9 @@
 package config
 
 import (
-	"os"
-	"strconv"
 	"strings"
+
+	"github.com/spf13/viper"
 )
 
 // Config contains all the necessary configurations
@@ -21,36 +21,24 @@ func (c Config) GetEnv() string {
 
 // Load reads all config from env to config
 func Load() Config {
-	port, err := strconv.Atoi(os.Getenv("REDIS_PORT"))
-	if err != nil {
-		panic(err)
-	}
-	db, err := strconv.Atoi(os.Getenv("REDIS_DB"))
-	if err != nil {
-		panic(err)
-	}
-	
-	var ssl bool
-	if os.Getenv("REDIS_SSL") != "" {
-		ssl, err = strconv.ParseBool(os.Getenv("REDIS_SSL"))
-		if err != nil {
-			panic(err)
-		}
-	}
+	viper.AutomaticEnv()
+	viper.SetConfigName("config")
+	viper.SetConfigType("yaml")
+	viper.AddConfigPath("./")
 
 	return Config{
-		environment: os.Getenv("APP_ENV"),
+		environment: viper.GetString("APP_ENV"),
 		Bot: BotConfig{
-			tkn:         os.Getenv("API_TOKEN"),
-			adminChatID: os.Getenv("ADMIN_CHAT_ID"),
+			tkn:         viper.GetString("API_TOKEN"),
+			adminChatID: viper.GetInt64("ADMIN_CHAT_ID"),
 		},
-		API: NewAPIConfig(strings.Split(os.Getenv("APP_IDS"), ";"), strings.Split(os.Getenv("APP_KEYS"), ";")),
+		API: NewAPIConfig(strings.Split(viper.GetString("APP_IDS"), ";"), strings.Split(viper.GetString("APP_KEYS"), ";")),
 		Redis: RedisConfig{
-			host:     os.Getenv("REDIS_HOST"),
-			port:     port,
-			password: os.Getenv("REDIS_PASS"),
-			db:       db,
-			ssl:      ssl,
+			host:     viper.GetString("REDIS_HOST"),
+			port:     viper.GetInt("REDIS_PORT"),
+			password: viper.GetString("REDIS_PASS"),
+			db:       viper.GetInt("REDIS_DB"),
+			ssl:      viper.GetBool("REDIS_SSL"),
 		},
 	}
 }

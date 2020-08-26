@@ -2,8 +2,6 @@ package router
 
 import (
 	"fmt"
-	"os"
-	"strconv"
 
 	botAPI "github.com/go-telegram-bot-api/telegram-bot-api"
 	"github.com/sid-sun/OxfordDict-Bot/cmd/config"
@@ -70,14 +68,10 @@ func New(cfg config.BotConfig, logger *zap.Logger, svc service.Service) Bot {
 	if err != nil {
 		panic(err)
 	}
-	adminChatID, err := strconv.ParseInt(os.Getenv("ADMIN_CHAT_ID"), 10, 64)
-	if err != nil {
-		panic(err)
-	}
 	return Bot{
 		bot:         b,
 		logger:      logger,
 		svc:         svc,
-		adminChatID: adminChatID,
+		adminChatID: cfg.GetAdminChatID(),
 	}
 }
