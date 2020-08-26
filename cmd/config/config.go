@@ -1,8 +1,9 @@
 package config
 
 import (
-	"os"
 	"strings"
+
+	"github.com/spf13/viper"
 )
 
 // Config contains all the necessary configurations
@@ -19,12 +20,17 @@ func (c Config) GetEnv() string {
 
 // Load reads all config from env to config
 func Load() Config {
+	viper.AutomaticEnv()
+	viper.SetConfigName("config")
+	viper.SetConfigType("yaml")
+	viper.AddConfigPath("./")
+
 	return Config{
-		environment: os.Getenv("APP_ENV"),
+		environment: viper.GetString("APP_ENV"),
 		Bot: BotConfig{
-			tkn:         os.Getenv("API_TOKEN"),
-			adminChatID: os.Getenv("ADMIN_CHAT_ID"),
+			tkn:         viper.GetString("API_TOKEN"),
+			adminChatID: viper.GetInt64("ADMIN_CHAT_ID"),
 		},
-		API: NewAPIConfig(strings.Split(os.Getenv("APP_IDS"), ";"), strings.Split(os.Getenv("APP_KEYS"), ";")),
+		API: NewAPIConfig(strings.Split(viper.GetString("APP_IDS"), ";"), strings.Split(viper.GetString("APP_KEYS"), ";")),
 	}
 }
