@@ -44,8 +44,7 @@ func (b BotService) GetDefinition(query string) (api.Response, error) {
 	}
 
 	client := &http.Client{}
-
-	req, err := http.NewRequest("GET", "https://od-api.oxforddictionaries.com:443/api/v2/entries/en/"+strings.ToLower(query), nil)
+	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/%s", "https://od-api.oxforddictionaries.com:443/api/v2/entries/en", query), nil)
 	if err != nil {
 		b.logger.Error(fmt.Sprintf("[Service] [BotService] [GetDefinition] [NewRequest] %v", err))
 		return api.Response{}, err
