@@ -21,6 +21,7 @@ type Service interface {
 
 // BotService implements Service with logger
 type BotService struct {
+	client    *http.Client
 	logger    *zap.Logger
 	apiConfig *config.APIConfig
 	store     store.Store
@@ -29,6 +30,7 @@ type BotService struct {
 // NewService returns a new BotService instance
 func NewService(logger *zap.Logger, cfg *config.APIConfig, str store.Store) Service {
 	return BotService{
+		client:    &http.Client{},
 		logger:    logger,
 		apiConfig: cfg,
 		store:     str,
@@ -43,7 +45,6 @@ func (b BotService) GetDefinition(query string) (api.Response, error) {
 		return r, nil
 	}
 
-	client := &http.Client{}
 	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/%s", "https://od-api.oxforddictionaries.com:443/api/v2/entries/en", query), nil)
 	if err != nil {
 		b.logger.Error(fmt.Sprintf("[Service] [BotService] [GetDefinition] [NewRequest] %v", err))
@@ -57,7 +58,7 @@ func (b BotService) GetDefinition(query string) (api.Response, error) {
 	req.Header.Add(apiAppIDHeader, c.GetID())
 	req.Header.Add(apiAppKeyHeader, c.GetKey())
 
-	res, err := client.Do(req)
+	res, err := b.client.Do(req)
 	if err != nil {
 		b.logger.Error(fmt.Sprintf("[Service] [BotService] [GetDefinition] [Do] %v", err))
 		return api.Response{}, err
