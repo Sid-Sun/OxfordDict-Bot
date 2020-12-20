@@ -1,6 +1,7 @@
 package callback
 
 import (
+	"errors"
 	"fmt"
 	"strconv"
 	"strings"
@@ -35,6 +36,12 @@ func Handler(bot *botAPI.BotAPI, update botAPI.Update, logger *zap.Logger, svc s
 	if err != nil {
 		log := fmt.Sprintf("[%s] [Handler] [GetDefinition] %v", handler, err)
 		logger.Error(log)
+		if errors.Is(err, service.ErrForbidden) {
+			reply := botAPI.NewMessage(update.Message.Chat.ID, "Sorry, quota reached, please try again later.")
+			reply.ReplyToMessageID = update.Message.MessageID
+			_, err = bot.Send(reply)
+			return
+		}
 		adminMessage := botAPI.NewMessage(adminChatID, log)
 		var reply botAPI.EditMessageTextConfig
 		if _, err := bot.Send(adminMessage); err != nil {

@@ -2,6 +2,7 @@ package service
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -26,6 +27,8 @@ type BotService struct {
 	apiConfig *config.APIConfig
 	store     store.Store
 }
+
+var ErrForbidden = errors.New("status 403 - access denies")
 
 // NewService returns a new BotService instance
 func NewService(logger *zap.Logger, cfg *config.APIConfig, str store.Store) Service {
@@ -63,13 +66,11 @@ func (b BotService) GetDefinition(query string) (api.Response, error) {
 		b.logger.Error(fmt.Sprintf("[Service] [BotService] [GetDefinition] [Do] %v", err))
 		return api.Response{}, err
 	}
+	if res.StatusCode == http.StatusForbidden {
+		return api.Response{}, ErrForbidden
+	}
 	if res.StatusCode != http.StatusOK && res.StatusCode != http.StatusNotFound {
-		switch res.StatusCode {
-		case http.StatusForbidden:
-			err = fmt.Errorf("status code not OK: %d Cfg: %v", res.StatusCode, c)
-		default:
-			err = fmt.Errorf("status code not OK: %d", res.StatusCode)
-		}
+		err = fmt.Errorf("status code not OK: %d", res.StatusCode)
 		b.logger.Error(fmt.Sprintf("[Service] [BotService] [GetDefinition] [StatusOK] %v", err))
 		return api.Response{}, err
 	}
