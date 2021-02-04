@@ -12,6 +12,9 @@ import (
 	"go.uber.org/zap"
 )
 
+const errMessageNotModified = "Bad Request: message is not modified: specified new message content and reply markup are exactly the same as a current content and reply markup of the message"
+const errMessageToEditNotFound = "Bad Request: message to edit not found"
+
 // Handler handles callback queries
 func Handler(bot *botAPI.BotAPI, update botAPI.Update, logger *zap.Logger, svc service.Service, adminChatID int64) {
 	logger.Info("[Callback] [Attempt]")
@@ -111,6 +114,17 @@ func Handler(bot *botAPI.BotAPI, update botAPI.Update, logger *zap.Logger, svc s
 
 	_, err = bot.Send(reply)
 	if err != nil {
+		// Drop Message not modified errors
+		if err.Error() == errMessageNotModified {
+			return
+		}
+		if err.Error() == errMessageToEditNotFound {
+			newReply := botAPI.NewMessage(update.Message.Chat.ID, formattedMessage)
+			newReply.ReplyToMessageID = update.CallbackQuery.Message.MessageID
+			reply.ReplyMarkup = &keyboard
+			_, _ = bot.Send(newReply)
+			return
+		}
 		log := fmt.Sprintf("[%s] [Handler] [Send] %v", handler, err)
 		logger.Error(log)
 		adminMessage := botAPI.NewMessage(adminChatID, log)
