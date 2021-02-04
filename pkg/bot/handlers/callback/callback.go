@@ -31,7 +31,7 @@ func Handler(bot *botAPI.BotAPI, update botAPI.Update, logger *zap.Logger, svc s
 		}
 	}()
 
-	query := strings.Fields(update.CallbackQuery.Message.ReplyToMessage.Text)[0]
+	query := strings.Fields(update.CallbackQuery.Message.Text)[0]
 	definition, err := svc.GetDefinition(strings.ToLower(query))
 	if err != nil {
 		log := fmt.Sprintf("[%s] [Handler] [GetDefinition] %v", handler, err)
