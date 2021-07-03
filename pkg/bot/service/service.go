@@ -43,7 +43,7 @@ func NewService(logger *zap.Logger, cfg *config.APIConfig, str store.Store) Serv
 // GetDefinition makes a call to Dictionaries API and returns an instance of api.Response
 func (b BotService) GetDefinition(query string) (api.Response, error) {
 	// Check if cache has definition
-	r := b.store.Get(query)
+	r := b.store.Redis.Get(query)
 	if !r.IsEmpty() {
 		return r, nil
 	}
@@ -93,6 +93,6 @@ func (b BotService) GetDefinition(query string) (api.Response, error) {
 	}
 
 	// Cache response in memory
-	b.store.Put(query, r)
+	b.store.Redis.Put(query, r)
 	return r, nil
 }

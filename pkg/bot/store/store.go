@@ -1,11 +1,13 @@
 package store
 
-// Store wraps InstanceInterface
+// Store wraps Redis
 type Store struct {
-	InstanceInterface
+	Redis RedisService
 }
 
 // NewStore creates a new Store instance
-func NewStore(instanceInterface InstanceInterface) Store {
-	return Store{instanceInterface}
+func NewStore(Redis RedisService) Store {
+	return Store {
+		Redis: Redis,
+	}
 }

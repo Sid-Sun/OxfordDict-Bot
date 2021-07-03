@@ -20,8 +20,8 @@ type Client struct {
 	logger *zap.Logger
 }
 
-// NewClient returns a new instance of Client with necessary config
-func NewClient(lgr *zap.Logger, cfg config.RedisConfig) ClientInterface {
+// NewRedisClientConfig returns a new instance of Client with necessary config
+func NewRedisClientConfig(lgr *zap.Logger, cfg config.RedisConfig) ClientInterface {
 	return Client{
 		config: cfg,
 		logger: lgr,
