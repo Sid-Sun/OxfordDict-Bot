@@ -10,25 +10,21 @@ import (
 	"time"
 )
 
-// InstanceInterface defines a db instance interface
-type InstanceInterface interface {
-	Get(string) api.Response
-	Put(string, api.Response)
-}
-
-// NewInstance creates a new instance for db
-func NewInstance(rdb *redis.Client, logger *zap.Logger) InstanceInterface {
-	return Instance{logger: logger, rc: rdb}
-}
-
-// Instance implements InstanceInterface with map
-type Instance struct {
+// RedisSoreImpl implements Store with redis
+type RedisSoreImpl struct {
 	rc     *redis.Client
 	logger *zap.Logger
 }
 
+func NewRedisStore(rdc *redis.Client, lgr *zap.Logger) Store {
+	return &RedisSoreImpl{
+		rc:     rdc,
+		logger: lgr,
+	}
+}
+
 // Get returns a db Data instance corresponding to id
-func (i Instance) Get(id string) api.Response {
+func (i *RedisSoreImpl) Get(id string) api.Response {
 	var d api.Response
 	res, err := i.rc.Get(context.Background(), id).Result()
 	if err != nil {
@@ -45,7 +41,7 @@ func (i Instance) Get(id string) api.Response {
 }
 
 // Put unconditionally sets db record of id to provided data
-func (i Instance) Put(id string, data api.Response) {
+func (i *RedisSoreImpl) Put(id string, data api.Response) {
 	d, err := json.Marshal(data)
 	if err != nil {
 		i.logger.Error(fmt.Sprintf("[Store] [Instance] [Put] [Marshal] %v", err))

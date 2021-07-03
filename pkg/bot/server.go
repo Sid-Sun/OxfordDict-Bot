@@ -14,11 +14,11 @@ import (
 
 // StartBot starts the bot, inits all the requited submodules and routine for shutdown
 func StartBot(cfg config.Config, logger *zap.Logger) {
-	rdc, err := store.NewClient(logger, cfg.Redis).GetClient()
+	rdc, err := store.NewRedisClient(cfg.Redis, logger)
 	if err != nil {
 		panic(err)
 	}
-	str := store.NewStore(store.NewInstance(rdc, logger))
+	str := store.NewRedisStore(rdc, logger)
 	svc := service.NewService(logger, &cfg.API, str)
 	ch := router.New(cfg.Bot, logger, svc).NewUpdateChan()
 

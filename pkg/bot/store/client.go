@@ -9,35 +9,16 @@ import (
 	"go.uber.org/zap"
 )
 
-// ClientInterface defines methods for client
-type ClientInterface interface {
-	GetClient() (*redis.Client, error)
-}
-
-// Client implements ClientInterface
-type Client struct {
-	config config.RedisConfig
-	logger *zap.Logger
-}
-
-// NewClient returns a new instance of Client with necessary config
-func NewClient(lgr *zap.Logger, cfg config.RedisConfig) ClientInterface {
-	return Client{
-		config: cfg,
-		logger: lgr,
-	}
-}
-
-// GetClient creates and returns a new Redis client
-func (c Client) GetClient() (*redis.Client, error) {
+// NewRedisClient returns a new instance of Client with necessary config
+func NewRedisClient(cfg config.RedisConfig, lgr *zap.Logger) (*redis.Client, error) {
 	var t *tls.Config
-	if c.config.SSL() {
+	if cfg.SSL() {
 		t = &tls.Config{MinVersion: tls.VersionTLS12}
 	}
 	rdb := redis.NewClient(&redis.Options{
-		Addr:      c.config.Address(),
-		Password:  c.config.Password(),
-		DB:        c.config.DB(),
+		Addr:      cfg.Address(),
+		Password:  cfg.Password(),
+		DB:        cfg.DB(),
 		TLSConfig: t,
 	})
 

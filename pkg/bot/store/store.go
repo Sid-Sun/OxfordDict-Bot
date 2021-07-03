@@ -1,11 +1,9 @@
 package store
 
-// Store wraps InstanceInterface
-type Store struct {
-	InstanceInterface
-}
+import "github.com/sid-sun/OxfordDict-Bot/pkg/bot/contract/api"
 
-// NewStore creates a new Store instance
-func NewStore(instanceInterface InstanceInterface) Store {
-	return Store{instanceInterface}
+// Store wraps InstanceInterface
+type Store interface {
+	Get(string) api.Response
+	Put(string, api.Response)
 }
