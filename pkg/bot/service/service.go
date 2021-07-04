@@ -18,6 +18,7 @@ import (
 // Service Interface defines a service spec
 type Service interface {
 	GetDefinition(string) (api.Response, error)
+	IsUserNotified(chatID int64) bool
 }
 
 // BotService implements Service with logger
@@ -95,4 +96,14 @@ func (b BotService) GetDefinition(query string) (api.Response, error) {
 	// Cache response in memory
 	b.store.Put(query, r)
 	return r, nil
+}
+
+func (b BotService) IsUserNotified(chatID int64) bool {
+	if b.store.DoesUserExist(chatID) {
+		b.store.IncrementQueryCount(chatID)
+		return true
+	} else {
+		b.store.InsertUser(chatID)
+		return false
+	}
 }
