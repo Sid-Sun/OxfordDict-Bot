@@ -18,7 +18,14 @@ func StartBot(cfg config.Config, logger *zap.Logger) {
 	if err != nil {
 		panic(err)
 	}
-	str := store.NewRedisStore(rdc, logger)
+	redisStore := store.NewRedisStore(rdc, logger)
+
+	mssqlClient, err := store.InitMSSQLClient(cfg.DBConfig, logger)
+	if err != nil {
+		panic(err)
+	}
+
+	str := store.NewMSSQLRedisStore(redisStore, mssqlClient, logger)
 	svc := service.NewService(logger, &cfg.API, str)
 	ch := router.New(cfg.Bot, logger, svc).NewUpdateChan()
 

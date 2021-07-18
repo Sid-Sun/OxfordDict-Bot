@@ -5,6 +5,7 @@ import (
 
 	botAPI "github.com/go-telegram-bot-api/telegram-bot-api"
 	"github.com/sid-sun/OxfordDict-Bot/cmd/config"
+	"github.com/sid-sun/OxfordDict-Bot/pkg/bot/handlers/analytics"
 	"github.com/sid-sun/OxfordDict-Bot/pkg/bot/handlers/callback"
 	"github.com/sid-sun/OxfordDict-Bot/pkg/bot/handlers/hello"
 	"github.com/sid-sun/OxfordDict-Bot/pkg/bot/handlers/query"
@@ -31,14 +32,20 @@ func (u Updates) ListenAndServe() {
 			if update.Message == nil || update.Message.Text == "" {
 				return
 			}
+			if update.Message.Chat.IsPrivate() {
+				go analytics.HandleAnalytics(update.Message.Chat.ID, u.bot.svc)
+			}
 			if cmd := update.Message.Command(); cmd != "" {
 				switch cmd {
 				case "start", "hello":
 					hello.Handler(u.bot.bot, update, u.bot.logger)
 					return
+				case "en":
+					query.Handler(u.bot.bot, update, u.bot.logger, u.bot.svc, u.bot.adminChatID)
 				}
+			} else if update.Message.Chat.IsPrivate() {
+				query.Handler(u.bot.bot, update, u.bot.logger, u.bot.svc, u.bot.adminChatID)
 			}
-			query.Handler(u.bot.bot, update, u.bot.logger, u.bot.svc, u.bot.adminChatID)
 		}()
 	}
 }

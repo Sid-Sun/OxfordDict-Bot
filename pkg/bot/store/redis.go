@@ -16,8 +16,8 @@ type RedisSoreImpl struct {
 	logger *zap.Logger
 }
 
-func NewRedisStore(rdc *redis.Client, lgr *zap.Logger) Store {
-	return &RedisSoreImpl{
+func NewRedisStore(rdc *redis.Client, lgr *zap.Logger) RedisSoreImpl {
+	return RedisSoreImpl{
 		rc:     rdc,
 		logger: lgr,
 	}

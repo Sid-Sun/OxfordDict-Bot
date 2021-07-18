@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"strings"
+	"unicode"
 
 	"github.com/sid-sun/OxfordDict-Bot/pkg/bot/contract"
 
@@ -19,6 +20,24 @@ func Handler(bot *botAPI.BotAPI, update botAPI.Update, logger *zap.Logger, svc s
 	// Treat first word in message as query and convert to lowercase
 	query := strings.Fields(update.Message.Text)[0]
 
+	if update.Message.IsCommand() {
+		query_fields := strings.Fields(update.Message.CommandArguments())
+		if len(query_fields) == 0 {
+			reply := botAPI.NewMessage(update.Message.Chat.ID, "Invlaid usage, please use as: \"/en <word>\" ex: /en hello.")
+			reply.ReplyToMessageID = update.Message.MessageID
+			_, _ = bot.Send(reply)
+			return
+		}
+		query = query_fields[0]
+	}
+
+	if !isLetters(query) {
+		reply := botAPI.NewMessage(update.Message.Chat.ID, fmt.Sprintf("Sorry, %s is not an English word.", query))
+		reply.ReplyToMessageID = update.Message.MessageID
+		_, _ = bot.Send(reply)
+		return
+	}
+
 	definition, err := svc.GetDefinition(strings.ToLower(query))
 	if err != nil {
 		log := fmt.Sprintf("[%s] [Handler] [GetDefinition] %v", handler, err)
@@ -26,7 +45,7 @@ func Handler(bot *botAPI.BotAPI, update botAPI.Update, logger *zap.Logger, svc s
 		if errors.Is(err, service.ErrForbidden) {
 			reply := botAPI.NewMessage(update.Message.Chat.ID, "Sorry, quota reached, please try again later.")
 			reply.ReplyToMessageID = update.Message.MessageID
-			_, err = bot.Send(reply)
+			_, _ = bot.Send(reply)
 			return
 		}
 		adminMessage := botAPI.NewMessage(adminChatID, log)
@@ -102,4 +121,13 @@ func Handler(bot *botAPI.BotAPI, update botAPI.Update, logger *zap.Logger, svc s
 	}
 
 	logger.Info("[Query] [Success]")
+}
+
+func isLetters(s string) bool {
+    for _, r := range s {
+        if !unicode.IsLetter(r) || unicode.IsDigit(r) {
+            return false
+        }
+    }
+    return true
 }

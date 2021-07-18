@@ -12,6 +12,7 @@ type Config struct {
 	environment string
 	API         APIConfig
 	Redis       RedisConfig
+	DBConfig    *DBConfig
 }
 
 // GetEnv returns the current development environment
@@ -39,6 +40,13 @@ func Load() Config {
 			password: viper.GetString("REDIS_PASS"),
 			db:       viper.GetInt("REDIS_DB"),
 			ssl:      viper.GetBool("REDIS_SSL"),
+		},
+		DBConfig: &DBConfig{
+			port:     viper.GetInt("DB_PORT"),
+			server:   viper.GetString("DB_SERVER"),
+			user:     viper.GetString("DB_USER"),
+			password: viper.GetString("DB_PASSWORD"),
+			database: viper.GetString("DB_DATABASE"),
 		},
 	}
 }
