@@ -109,7 +109,7 @@ func Handler(bot *botAPI.BotAPI, update botAPI.Update, logger *zap.Logger, svc s
 
 	formattedMessage := resp.GetFormatted(current)
 
-	reply := botAPI.NewEditMessageText(int64(update.CallbackQuery.From.ID), update.CallbackQuery.Message.MessageID, formattedMessage)
+	reply := botAPI.NewEditMessageText(update.CallbackQuery.Message.Chat.ID, update.CallbackQuery.Message.MessageID, formattedMessage)
 	reply.ReplyMarkup = &keyboard
 
 	_, err = bot.Send(reply)
