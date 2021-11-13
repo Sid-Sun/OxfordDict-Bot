@@ -36,8 +36,6 @@ func (u Updates) ListenAndServe() {
 				case "start", "hello":
 					hello.Handler(u.bot.bot, update, u.bot.logger)
 					return
-				case "en":
-					query.Handler(u.bot.bot, update, u.bot.logger, u.bot.svc, u.bot.adminChatID)
 				}
 			}
 			query.Handler(u.bot.bot, update, u.bot.logger, u.bot.svc, u.bot.adminChatID)
