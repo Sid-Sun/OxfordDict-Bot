@@ -8,7 +8,7 @@ import (
 
 	"github.com/sid-sun/OxfordDict-Bot/pkg/bot/contract"
 
-	botAPI "github.com/go-telegram-bot-api/telegram-bot-api"
+	botAPI "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"github.com/sid-sun/OxfordDict-Bot/pkg/bot/service"
 	"go.uber.org/zap"
 )
@@ -45,15 +45,17 @@ func Handler(bot *botAPI.BotAPI, update botAPI.Update, logger *zap.Logger, svc s
 		if errors.Is(err, service.ErrForbidden) {
 			reply := botAPI.NewMessage(update.Message.Chat.ID, "Sorry, quota reached, please try again later.")
 			reply.ReplyToMessageID = update.Message.MessageID
-			_, err = bot.Send(reply)
+			_, _ = bot.Send(reply)
 			return
 		}
 		adminMessage := botAPI.NewMessage(adminChatID, log)
 		var reply botAPI.MessageConfig
 		if _, err := bot.Send(adminMessage); err != nil {
 			logger.Error(fmt.Sprintf("[%s] [Handler] [GetDefinition] [Error] [Admin] [Send] %v", handler, err))
-			c, err := bot.GetChat(botAPI.ChatConfig{
-				ChatID: adminChatID,
+			c, err := bot.GetChat(botAPI.ChatInfoConfig{
+				ChatConfig: botAPI.ChatConfig{
+					ChatID: adminChatID,
+				},
 			})
 			if err != nil {
 				logger.Error(fmt.Sprintf("[%s] [Handler] [GetDefinition] [Error] [Admin] [Send] [GetChat] %v", handler, err))

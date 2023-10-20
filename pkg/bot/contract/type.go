@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"unicode"
 
-	botAPI "github.com/go-telegram-bot-api/telegram-bot-api"
+	botAPI "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"github.com/sid-sun/OxfordDict-Bot/pkg/bot/contract/api"
 )
 

@@ -3,7 +3,7 @@ package router
 import (
 	"fmt"
 
-	botAPI "github.com/go-telegram-bot-api/telegram-bot-api"
+	botAPI "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"github.com/sid-sun/OxfordDict-Bot/cmd/config"
 	"github.com/sid-sun/OxfordDict-Bot/pkg/bot/handlers/callback"
 	"github.com/sid-sun/OxfordDict-Bot/pkg/bot/handlers/hello"
@@ -55,10 +55,7 @@ type Bot struct {
 func (b Bot) NewUpdateChan() Updates {
 	u := botAPI.NewUpdate(0)
 	u.Timeout = 60
-	ch, err := b.bot.GetUpdatesChan(u)
-	if err != nil {
-		panic(err)
-	}
+	ch := b.bot.GetUpdatesChan(u)
 	return Updates{ch: ch, bot: b}
 }
 

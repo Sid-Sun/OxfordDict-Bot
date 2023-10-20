@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	botAPI "github.com/go-telegram-bot-api/telegram-bot-api"
+	botAPI "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"github.com/sid-sun/OxfordDict-Bot/pkg/bot/contract"
 	"github.com/sid-sun/OxfordDict-Bot/pkg/bot/service"
 	"go.uber.org/zap"
@@ -21,8 +21,8 @@ func Handler(bot *botAPI.BotAPI, update botAPI.Update, logger *zap.Logger, svc s
 
 	// Defer callback query answer
 	defer func() {
-		newCallBackConfig := botAPI.NewCallback(update.CallbackQuery.ID, "")
-		_, err := bot.AnswerCallbackQuery(newCallBackConfig)
+		newCallBack := botAPI.NewCallback(update.CallbackQuery.ID, "")
+		_, err := bot.Request(newCallBack)
 		if err != nil {
 			log := fmt.Sprintf("[%s] [Handler] [AnswerCallbackQuery] %v", handler, err)
 			logger.Error(log)
@@ -49,8 +49,10 @@ func Handler(bot *botAPI.BotAPI, update botAPI.Update, logger *zap.Logger, svc s
 		var reply botAPI.EditMessageTextConfig
 		if _, err := bot.Send(adminMessage); err != nil {
 			logger.Error(fmt.Sprintf("[%s] [Handler] [GetDefinition] [Error] [Admin] [Send] %v", handler, err))
-			c, err := bot.GetChat(botAPI.ChatConfig{
-				ChatID: adminChatID,
+			c, err := bot.GetChat(botAPI.ChatInfoConfig{
+				ChatConfig: botAPI.ChatConfig{
+					ChatID: adminChatID,
+				},
 			})
 			if err != nil {
 				logger.Error(fmt.Sprintf("[%s] [Handler] [GetDefinition] [Error] [Admin] [Send] [GetChat] %v", handler, err))
