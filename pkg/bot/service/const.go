@@ -1,6 +1,6 @@
 package service
 
 const (
-	apiAppIDHeader  = "app_id"
-	apiAppKeyHeader = "app_key"
+	apiHostHeader   = "X-RapidAPI-Host"
+	apiAppKeyHeader = "X-RapidAPI-Key"
 )

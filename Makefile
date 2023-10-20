@@ -14,8 +14,8 @@ tidy:
 	go mod tidy
 
 serve: fmt vet
-	env $(cat test.env | xargs) go run cmd/*.go
+	env $(cat test.env | xargs) CGO_ENABLED=0 go run cmd/*.go
 
 compile:
 	mkdir out
-	go build -o $(APP_EXECUTABLE) -ldflags "-X main.version=$(APP_VERSION)" cmd/*.go
+	CGO_ENABLED=0 go build -o $(APP_EXECUTABLE) -ldflags "-X main.version=$(APP_VERSION)" cmd/*.go

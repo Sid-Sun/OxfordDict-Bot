@@ -2,30 +2,21 @@ package api
 
 // Response defines the reponse structure for Dictionaries API
 type Response struct {
-	Metadata struct {
-		Provider string `json:"provider" bson:"provider"`
-	} `json:"metadata" bson:"metadata"`
+	Word    string `json:"word" bson:"word"`
 	Results []struct {
-		LexicalEntries []struct {
-			Language        string `json:"language" bson:"language"`
-			LexicalCategory struct {
-				Text string `json:"text" bson:"text"`
-			} `json:"lexicalCategory" bson:"lexicalCategory"`
-			Entries []struct {
-				Senses []struct {
-					Definitions []string `json:"definitions" bson:"definitions"`
-					Examples    []struct {
-						Text string `json:"text" bson:"text"`
-					} `json:"examples" bson:"examples"`
-				} `json:"senses" bson:"senses"`
-			} `json:"entries" bson:"entries"`
-		} `json:"lexicalEntries" bson:"lexicalEntries"`
+		Definition   string   `json:"definition" bson:"definition"`
+		PartOfSpeech string   `json:"partOfSpeech" bson:"partOfSpeech"`
+		Examples     []string `json:"examples" bson:"examples"`
+		Derivation   []string `json:"derivation" bson:"derivation"`
 	} `json:"results" bson:"results"`
+	// Pronunciation struct {
+	// 	All string `json:"all" bson:"all"`
+	// }
 }
 
 // NumberOfDefinitions returns the number of definitions for query in response
 func (r Response) NumberOfDefinitions() int {
-	return len(r.Results[0].LexicalEntries[0].Entries[0].Senses)
+	return len(r.Results)
 }
 
 // IsEmpty checks if Response is empty and if it is, returns true

@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"strings"
 
@@ -22,21 +22,21 @@ type Service interface {
 
 // BotService implements Service with logger
 type BotService struct {
-	client    *http.Client
-	logger    *zap.Logger
-	apiConfig *config.APIConfig
-	store     store.Store
+	client *http.Client
+	logger *zap.Logger
+	apiKey string
+	store  store.Store
 }
 
-var ErrForbidden = errors.New("status 403 - access denies")
+var ErrForbidden = errors.New("status 403 - access denied")
 
 // NewService returns a new BotService instance
-func NewService(logger *zap.Logger, cfg *config.APIConfig, str store.Store) Service {
+func NewService(logger *zap.Logger, cfg config.Config, str store.Store) Service {
 	return BotService{
-		client:    &http.Client{},
-		logger:    logger,
-		apiConfig: cfg,
-		store:     str,
+		client: &http.Client{},
+		logger: logger,
+		apiKey: cfg.APIKey,
+		store:  str,
 	}
 }
 
@@ -48,18 +48,14 @@ func (b BotService) GetDefinition(query string) (api.Response, error) {
 		return r, nil
 	}
 
-	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/%s", "https://od-api.oxforddictionaries.com:443/api/v2/entries/en", query), nil)
+	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("https://wordsapiv1.p.rapidapi.com/words/%s", query), nil)
 	if err != nil {
 		b.logger.Error(fmt.Sprintf("[Service] [BotService] [GetDefinition] [NewRequest] %v", err))
 		return api.Response{}, err
 	}
 
-	c, err := b.apiConfig.GetConfig()
-	if err != nil {
-		return api.Response{}, err
-	}
-	req.Header.Add(apiAppIDHeader, c.GetID())
-	req.Header.Add(apiAppKeyHeader, c.GetKey())
+	req.Header.Add(apiHostHeader, "wordsapiv1.p.rapidapi.com")
+	req.Header.Add(apiAppKeyHeader, b.apiKey)
 
 	res, err := b.client.Do(req)
 	if err != nil {
@@ -81,7 +77,7 @@ func (b BotService) GetDefinition(query string) (api.Response, error) {
 	}
 
 	defer res.Body.Close()
-	data, err := ioutil.ReadAll(res.Body)
+	data, err := io.ReadAll(res.Body)
 	if err != nil {
 		b.logger.Error(fmt.Sprintf("[Service] [BotService] [GetDefinition] [ReadAll] %v", err))
 		return api.Response{}, err

@@ -124,10 +124,10 @@ func Handler(bot *botAPI.BotAPI, update botAPI.Update, logger *zap.Logger, svc s
 }
 
 func isLetters(s string) bool {
-    for _, r := range s {
-        if !unicode.IsLetter(r) || unicode.IsDigit(r) {
-            return false
-        }
-    }
-    return true
+	for _, r := range s {
+		if !unicode.IsLetter(r) || unicode.IsDigit(r) {
+			return false
+		}
+	}
+	return true
 }

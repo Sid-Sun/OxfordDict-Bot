@@ -3,6 +3,7 @@ package contract
 import (
 	"fmt"
 	"strconv"
+	"unicode"
 
 	botAPI "github.com/go-telegram-bot-api/telegram-bot-api"
 	"github.com/sid-sun/OxfordDict-Bot/pkg/bot/contract/api"
@@ -14,33 +15,35 @@ type Response struct {
 	Query       string
 }
 
+func formatAsSentence(s string) string {
+	r := []rune(s)
+	return string(append([]rune{unicode.ToUpper(r[0])}, r[1:]...))
+}
+
 // GetFormatted returns formatted string for response
 func (d Response) GetFormatted(index int) string {
 	// Get required data
 	var definition string
-	if len(d.APIResponse.Results[0].LexicalEntries[0].Entries[0].Senses[index].Definitions) > 0 {
-		definition = d.APIResponse.Results[0].LexicalEntries[0].Entries[0].Senses[index].Definitions[0]
+	if d.APIResponse.NumberOfDefinitions() > 0 {
+		definition = formatAsSentence(d.APIResponse.Results[index].Definition)
 	}
-	var example string
-	if len(d.APIResponse.Results[0].LexicalEntries[0].Entries[0].Senses[index].Examples) > 0 {
-		example = d.APIResponse.Results[0].LexicalEntries[0].Entries[0].Senses[index].Examples[0].Text
+	var examples string
+	if len(d.APIResponse.Results[index].Examples) > 0 {
+		for i, example := range d.APIResponse.Results[index].Examples {
+			examples += fmt.Sprintf("\n%d. %s", i+1, formatAsSentence(example))
+		}
 	}
 
-	provider := d.APIResponse.Metadata.Provider
-	language := d.APIResponse.Results[0].LexicalEntries[0].Language
-	lexicalCategory := d.APIResponse.Results[0].LexicalEntries[0].LexicalCategory.Text
+	lexicalCategory := d.APIResponse.Results[index].PartOfSpeech
 
 	// Format
-	message := d.Query + " by " + provider
-	if language != "" {
-		message += "\n\nLanguage: \n" + language
-	}
+	message := fmt.Sprintf("%s by WordsAPI", d.APIResponse.Word)
 	if definition != "" {
 		message += "\n\nDefinition: \n" + definition
 	}
 	message += "\n\nLexical Category: \n" + lexicalCategory
-	if example != "" {
-		message += "\n\nExample: \n" + example
+	if examples != "" {
+		message += "\n\nExample(s): " + examples
 	}
 
 	return message

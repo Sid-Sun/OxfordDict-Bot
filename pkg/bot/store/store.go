@@ -7,7 +7,7 @@ type Store struct {
 
 // NewStore creates a new Store instance
 func NewStore(Redis RedisService) Store {
-	return Store {
+	return Store{
 		Redis: Redis,
 	}
 }

@@ -1,8 +1,6 @@
 package config
 
 import (
-	"strings"
-
 	"github.com/spf13/viper"
 )
 
@@ -10,7 +8,7 @@ import (
 type Config struct {
 	Bot         BotConfig
 	environment string
-	API         APIConfig
+	APIKey      string
 	Redis       RedisConfig
 }
 
@@ -32,7 +30,7 @@ func Load() Config {
 			tkn:         viper.GetString("API_TOKEN"),
 			adminChatID: viper.GetInt64("ADMIN_CHAT_ID"),
 		},
-		API: NewAPIConfig(strings.Split(viper.GetString("APP_IDS"), ";"), strings.Split(viper.GetString("APP_KEYS"), ";")),
+		APIKey: viper.GetString("API_KEY"),
 		Redis: RedisConfig{
 			host:     viper.GetString("REDIS_HOST"),
 			port:     viper.GetInt("REDIS_PORT"),
