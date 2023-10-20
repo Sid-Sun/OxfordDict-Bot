@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
     redis:
-        image: redis:6.0-alpine
+        image: redis:7-alpine
     bot:
         # image: realsidsun/oxford-dict-bot:latest
         build: .
